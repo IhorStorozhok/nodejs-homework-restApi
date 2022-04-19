@@ -1,5 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
+const { nanoid } = require("nanoid");
 const contactsPath = path.join(__dirname, "./contacts.json");
 
 const listContacts = async () => {
@@ -31,14 +32,8 @@ const removeContact = async (contactId) => {
 
 const addContact = async (body) => {
   const data = await listContacts();
-  let lastId = 1;
-  data.forEach((element) => {
-    if (+element.id > lastId) {
-      lastId = +element.id;
-    }
-  });
   const contactWithId = {
-    id: (lastId + 1).toString(),
+    id: nanoid(),
     ...body,
   };
   const newData = [...data, contactWithId];
