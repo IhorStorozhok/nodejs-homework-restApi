@@ -6,6 +6,7 @@ module.exports = {
       name: Joi.string().max(50),
       email: Joi.string().email().max(50),
       phone: Joi.string().pattern(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/),
+      favorite: Joi.boolean(),
     });
     const validationResults = schema.validate(req.body);
     if (validationResults.error) {
@@ -24,6 +25,21 @@ module.exports = {
       phone: Joi.string()
         .required()
         .pattern(/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/),
+      favorite: Joi.boolean(),
+    });
+    const validationResults = schema.validate(req.body);
+    if (validationResults.error) {
+      return res.status(404).json({
+        status: "rejected",
+        code: 400,
+        message: validationResults.error,
+      });
+    }
+    next();
+  },
+  updateContactFavoriteValidation: (req, res, next) => {
+    const schema = Joi.object({
+      favorite: Joi.boolean().required(),
     });
     const validationResults = schema.validate(req.body);
     if (validationResults.error) {
