@@ -1,5 +1,4 @@
 const { Contact } = require("../../models/index");
-const responseMaker = require("../../helpers/responseMaker");
 
 const updateContact = async (req, res) => {
   const { contactId } = req.params;
@@ -7,9 +6,19 @@ const updateContact = async (req, res) => {
   const updatingContact = await Contact.findByIdAndUpdate(contactId, body, {
     new: true,
   });
-  updatingContact !== null
-    ? responseMaker(200, res, updatingContact)
-    : responseMaker(404, res, "Not found");
+  if (updatingContact !== null) {
+    return res.status(200).json({
+      status: "successful",
+      code: 200,
+      data: updatingContact,
+    });
+  } else {
+    return res.status(404).json({
+      status: "rejected",
+      code: 404,
+      message: "Not found",
+    });
+  }
 };
 
 module.exports = updateContact;
