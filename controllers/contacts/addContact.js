@@ -10,8 +10,11 @@ const addContact = async (req, res) => {
       message: "The contact with such name is already added.",
     });
   } else {
+    const { id } = req.user;
     const data =
-      body.favorite === undefined ? { ...body, favorite: false } : { ...body };
+      body.favorite === undefined
+        ? { ...body, favorite: false, owner: id }
+        : { ...body, owner: id };
     const result = await Contact.create(data);
     return res.status(201).json({
       status: "successful",

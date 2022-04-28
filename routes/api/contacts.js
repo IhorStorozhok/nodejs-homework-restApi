@@ -1,12 +1,13 @@
 const express = require("express");
-const { ctrlWrapper, validation } = require("../../middlewares");
+const { ctrlWrapper, validation, auth } = require("../../middlewares");
 const { contacts: contactsControllers } = require("../../controllers");
 
 const router = express.Router();
 
-router.get("/", ctrlWrapper(contactsControllers.listContacts));
+router.get("/", auth, ctrlWrapper(contactsControllers.listContacts));
 router.post(
   "/",
+  auth,
   validation.addContactValidation,
   ctrlWrapper(contactsControllers.addContact)
 );
