@@ -1,22 +1,26 @@
 const { Contact } = require("../../models/index");
-const responseMaker = require("../../helpers/responseMaker");
 
 const addContact = async (req, res) => {
   const { body } = req;
-  const isAlreadyInDB =
-    (await Contact.findOne({ name: body.name })) ||
-    (await Contact.findOne({ email: body.email }));
+  const isAlreadyInDB = await Contact.findOne({ name: body.name });
   if (isAlreadyInDB) {
-    responseMaker(
-      409,
-      res,
-      "The contact with such properties is already added."
-    );
+    return res.status(409).json({
+      status: "rejected",
+      code: 409,
+      message: "The contact with such name is already added.",
+    });
   } else {
+    const { id } = req.user;
     const data =
-      body.favorite === undefined ? { ...body, favorite: false } : { ...body };
+      body.favorite === undefined
+        ? { ...body, favorite: false, owner: id }
+        : { ...body, owner: id };
     const result = await Contact.create(data);
-    responseMaker(201, res, result);
+    return res.status(201).json({
+      status: "successful",
+      code: 201,
+      data: result,
+    });
   }
 };
 
