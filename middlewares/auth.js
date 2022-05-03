@@ -27,6 +27,13 @@ const auth = async (req, res, next) => {
         message: "Not authorized",
       });
     }
+    if (!user.verify) {
+      return res.status(401).json({
+        status: "rejected",
+        code: 401,
+        message: "User not verified",
+      });
+    }
     req.user = user;
     next();
   } catch (error) {
