@@ -1,5 +1,10 @@
 const express = require("express");
-const { ctrlWrapper, registerValidation, auth } = require("../../middlewares");
+const {
+  ctrlWrapper,
+  registerValidation,
+  auth,
+  upload,
+} = require("../../middlewares");
 const { register: registerControllers } = require("../../controllers");
 
 const router = express.Router();
@@ -20,11 +25,19 @@ router.get(
   ctrlWrapper(registerControllers.getCurrentUser)
 );
 router.get("/logout", auth, registerControllers.logoutUser);
+
 router.patch(
   "/",
   auth,
   registerValidation.updateUserSubs,
   registerControllers.userSudsUpdate
+);
+
+router.patch(
+  "/avatars",
+  auth,
+  upload.single("avatar"),
+  registerControllers.userAvatarUpdate
 );
 
 module.exports = router;
