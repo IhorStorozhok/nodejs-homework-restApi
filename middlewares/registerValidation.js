@@ -45,4 +45,18 @@ module.exports = {
     }
     next();
   },
+  sendVerificationValidation: (req, res, next) => {
+    const schema = Joi.object({
+      email: Joi.string().max(50).required(),
+    });
+    const validationResults = schema.validate(req.body);
+    if (validationResults.error) {
+      return res.status(404).json({
+        status: "rejected",
+        code: 400,
+        message: validationResults.error,
+      });
+    }
+    next();
+  },
 };

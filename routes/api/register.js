@@ -40,4 +40,15 @@ router.patch(
   registerControllers.userAvatarUpdate
 );
 
+router.get(
+  "/verify/:verificationToken",
+  ctrlWrapper(registerControllers.userVerification)
+);
+
+router.post(
+  "/verify",
+  registerValidation.sendVerificationValidation,
+  ctrlWrapper(registerControllers.sendUserVerification)
+);
+
 module.exports = router;

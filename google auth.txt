@@ -1,0 +1,10 @@
+sendlermail2022
+mYpAsSWorD12
+
+
+sendmailer-349113
+MyApiOnNodeJS
+
+GoogleClientID = 269608605004-2qqg3mu9dn6nvv3e2admtcjbevb6mu78.apps.googleusercontent.com
+
+Secred = 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
